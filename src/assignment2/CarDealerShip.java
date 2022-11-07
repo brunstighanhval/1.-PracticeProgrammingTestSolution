@@ -39,7 +39,7 @@ public class CarDealerShip
         double total = 0;
 
         for (Car c: carsForSale) {
-            total += c.getPrice();
+            total = total + c.getPrice();
         }
         return total;
     }
@@ -50,10 +50,14 @@ public class CarDealerShip
      */
     public Car getCheapestCar()
     {
-        Car cheapest = carsForSale.get(0);
-        for (int i = 1; i < carsForSale.size(); i++) {
-            if (carsForSale.get(i).getPrice() < cheapest.getPrice())
-                cheapest = carsForSale.get(i);
+        Car cheapest = null;
+
+        if (carsForSale.size() > 0) {
+            cheapest = carsForSale.get(0);
+            for (int i = 1; i < carsForSale.size(); i++) {
+                if (carsForSale.get(i).getPrice() < cheapest.getPrice())
+                    cheapest = carsForSale.get(i);
+            }
         }
         return cheapest;
     }
@@ -80,7 +84,10 @@ public class CarDealerShip
     * Sort the list of cars for sale in order from cheapest to most expensive
     */    
     public void sortCarsByPrice() {
-        carsForSale.sort(Comparator.comparingDouble(Car::getPrice));
+
+        Comparator comp = Comparator.comparingDouble(Car::getPrice);
+
+        carsForSale.sort(comp);
     }
     
     /**
@@ -97,6 +104,13 @@ public class CarDealerShip
      */
     public Car presentRandomCarToCustomer()
     {
-        return carsForSale.get(new Random().nextInt(carsForSale.size()));
+        // Create object
+        Random rnd = new Random();
+
+        // Get random number (between 0 and size of carsForSale - 1)
+        int randomNumber = rnd.nextInt(carsForSale.size());
+
+        // Return "random" Car based on index
+        return carsForSale.get(randomNumber);
     }
 }
